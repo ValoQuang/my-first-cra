@@ -1,11 +1,11 @@
 import React from 'react'
 
-const Body = () => {
+const Form = () => {
   return (
     <div>
-      body
+      Contact form here
     </div>
   )
 }
 
-export default Body
+export default Form

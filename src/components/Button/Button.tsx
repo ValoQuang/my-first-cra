@@ -1,11 +1,22 @@
-import React from 'react'
+import { ReactNode } from "react";
 
-const Button = () => {
+type ButtonProp = {
+  title?: string | "";
+  icon?: ReactNode;
+  onClick?: any;
+};
+
+const Button = ({ title, icon, onClick }: ButtonProp) => {
+  const header = title ? title.charAt(0).toUpperCase() + title!.slice(1) : "";
   return (
     <div>
-      <button className="btn btn-lg btn-outline btn-success">Success</button>
+      <button onClick={onClick} className="btn btn-md btn-outline">
+        <div className="lg:hidden">{icon}</div>
+        <div className="max-lg:hidden">{icon}</div>
+        <div className="max-lg:hidden">{header}</div>
+      </button>
     </div>
-  )
-}
+  );
+};
 
-export default Button
+export default Button;
