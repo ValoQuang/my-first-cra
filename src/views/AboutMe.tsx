@@ -2,11 +2,17 @@ import { Loading, Button } from "../main/components/index";
 import { LuUserPlus } from "react-icons/lu";
 import { useGetUserByNameQuery } from "../redux/page/pageSlice";
 import Portfolio from "./Portfolio";
+import { useRef } from "react";
 
 const AboutMe = () => {
+  const section3Ref = useRef(null);
   const { data, isLoading } = useGetUserByNameQuery(
     `${process.env.REACT_APP_GITHUB_NAME}`
   );
+
+  const handleScrollToSection = (ref: any) => {
+    ref.current.scrollIntoView({ behavior: "smooth" });
+  };
 
   return (
     <div className="flex align-center min-h-screen justify-center items-center max-lg:text-sm">
@@ -35,9 +41,7 @@ const AboutMe = () => {
                 <h1 className="text-5xl max-lg:text-xl font-bold">
                   {data?.bio}
                 </h1>
-                <p>
-                  With great power comes great electricity !
-                </p>
+                <p>With great power comes great electricity !</p>
 
                 <div className="stats lg:stats-horizontal shadow">
                   <div className="stat">
@@ -51,7 +55,7 @@ const AboutMe = () => {
                   </div>
                 </div>
                 <Button
-                  anchor="to-do"
+                  onClick={() => handleScrollToSection(section3Ref)}
                   icon={<LuUserPlus />}
                   title="Get to know me more"
                 />
@@ -59,7 +63,9 @@ const AboutMe = () => {
             </div>
           </div>
 
-          <Portfolio />
+          <div ref={section3Ref}>
+            <Portfolio />
+          </div>
         </div>
       )}
     </div>

@@ -1,5 +1,6 @@
 import React from "react";
 import Button from "../Button/Button";
+import { LuSendHorizonal } from "react-icons/lu";
 
 const Card = ({ value }: any) => {
   return (
@@ -15,7 +16,7 @@ const Card = ({ value }: any) => {
             <div className="badge badge-outline">Fashion</div>
             <div className="badge badge-outline">Products</div>
           </div>
-          <Button anchor={value?.link} title="Link" />
+          <Button icon={<LuSendHorizonal />}anchor={value?.link} title="Link" />
         </div>
       </div>
     </div>

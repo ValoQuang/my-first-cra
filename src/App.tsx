@@ -8,7 +8,7 @@ function App() {
   return (
     <div
       data-theme={theme}
-      className="text-3xl max-lg:px-0 px-24 py-2 gap-2 flex flex-col justfiy-between overflow-y-hidden max-lg:overflow-x-hidden"
+      className="text-3xl max-lg:px-0 px-24 py-2 gap-2 flex flex-col justfiy-between max-lg:overflow-x-hidden"
     >
       <Navigation />
       <Outlet />
