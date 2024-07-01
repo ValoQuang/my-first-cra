@@ -1,9 +1,9 @@
 import { Form, createBrowserRouter } from "react-router-dom";
 import App from "./App";
-import ToDo from "./pages/ToDo";
-import AboutMe from "./pages/AboutMe";
+import ToDo from "./views/ToDo";
+import AboutMe from "./views/AboutMe";
 
-export const router: any = createBrowserRouter([
+export const router = createBrowserRouter([
   {
     element: <App />,
     children: [

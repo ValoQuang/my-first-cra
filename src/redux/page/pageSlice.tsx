@@ -1,8 +1,17 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+interface UserData {
+  avatar_url?: string;
+  name?: string | null;
+  company?: string | null;
+  email?: string | null;
+  bio: string | null;
+  public_repos: number;
+}
+
 type InitialState = {
-  data: any;
-  error: null;
+  data: UserData | null;
+  error: string | null;
   loading: boolean;
 };
 
@@ -19,22 +28,19 @@ const pageSlice = createSlice({
     fetchingStart: (state: { loading: boolean }) => {
       state.loading = true;
     },
-    fetchingSuccess: (state: InitialState, action: PayloadAction<any>) => {
+    fetchingSuccess: (state: InitialState, action: PayloadAction<UserData>) => {
       state.data = action.payload;
       state.loading = false;
       state.error = null;
     },
-    fetchingFailure: (state: InitialState, action: PayloadAction<any>) => {
+    fetchingFailure: (state: InitialState, action: PayloadAction<string | null>) => {
       state.loading = true;
       state.error = action.payload;
     },
   },
 });
 
-export const {
-  fetchingStart,
-  fetchingSuccess,
-  fetchingFailure,
-} = pageSlice.actions;
+export const { fetchingStart, fetchingSuccess, fetchingFailure } =
+  pageSlice.actions;
 
 export default pageSlice.reducer;

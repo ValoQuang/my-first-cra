@@ -1,6 +1,5 @@
-import Button from "../components/Button/Button";
-import Loading from "../components/Loading/Loading";
-import { useFetchGitHub } from "../utils/useFetch";
+import { Loading, Button } from "../main/components/index";
+import { useFetchGitHub } from "../hooks/useFetch";
 import { LuUserPlus } from "react-icons/lu";
 
 const AboutMe = () => {
@@ -13,7 +12,6 @@ const AboutMe = () => {
           <div className="flex w-full flex-col h-full gap-4">
             <Loading />
             <div className="flex gap-4">
-             
               <div className="flex items-center gap-4">
                 <div className="skeleton h-64 w-32 shrink-0 rounded-xl"></div>
               </div>
@@ -26,6 +24,7 @@ const AboutMe = () => {
           <div className="hero bg-base-100">
             <div className="hero-content flex-col lg:flex-row">
               <img
+                alt="imagemyself"
                 src={data?.avatar_url}
                 className="max-w-sm rounded-lg shadow-2xl w-64 h-full"
               />
@@ -49,7 +48,11 @@ const AboutMe = () => {
                     <div className="stat-value">{data?.public_repos}</div>
                   </div>
                 </div>
-                <Button icon={<LuUserPlus />} title="Get to know me more" />
+                <Button
+                  anchor="to-do"
+                  icon={<LuUserPlus />}
+                  title="Get to know me more"
+                />
               </div>
             </div>
           </div>

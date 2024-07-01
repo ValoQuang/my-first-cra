@@ -15,6 +15,7 @@ const persistConfig = {
   key: "root",
   storage,
   version: 1,
+  whitelist: ['theme'],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -1,6 +1,5 @@
 import { Outlet } from "react-router-dom";
-import Footer from "./pages/Footer";
-import Navigation from "./pages/Navigation";
+import { Navigation, Footer } from "./main/components/index";
 import { useSelector } from "react-redux";
 import { StoreState } from "./redux/store";
 
