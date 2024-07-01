@@ -4,9 +4,11 @@ import {
   LuFacebook,
   LuLinkedin,
   LuGithub,
-  LuBookOpenCheck
+  LuBookOpenCheck,
 } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { handleChangeTheme } from "../redux/theme/themeSlice";
 
 const socialMediaLink = [
   {
@@ -28,10 +30,11 @@ const socialMediaLink = [
 
 const Navigation: React.FC = memo(() => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleNavigateToDo = () => {
     navigate("/to-do");
-  }
+  };
 
   const handleNavigate = useCallback((address: string) => {
     const newTab = socialMediaLink.find((link) => link.name === address);
@@ -43,25 +46,32 @@ const Navigation: React.FC = memo(() => {
   const handleRenderButtons = useCallback(() => {
     return (
       <>
-        <Button title="To-Do App" onClick={handleNavigateToDo} icon={<LuBookOpenCheck />} /> 
+        <Button
+          title="To-Do App"
+          onClick={handleNavigateToDo}
+          icon={<LuBookOpenCheck />}
+        />
         {socialMediaLink.map((value, index) => (
           <div key={index}>
-            <Button title={value.name} icon={value.icon}  onClick={() => handleNavigate(value.name)}/>
+            <Button
+              title={value.name}
+              icon={value.icon}
+              onClick={() => handleNavigate(value.name)}
+            />
           </div>
         ))}
+        <Button
+          title="Theme"
+          onClick={() => dispatch(handleChangeTheme())}
+          icon={<LuBookOpenCheck />}
+        />
       </>
     );
   }, []);
 
   return (
-    <div className="w-full flex items-center justify-between">
-      <div className="text-3xl max-lg:hidden">Quang Truong</div>
-      <div className="lg:hidden avatar">
-        <div className=" w-24 rounded-full">
-          <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
-        </div>
-      </div>
-
+    <div className="w-[100%] flex items-center justify-between max-lg:px-5">
+      <div className="text-3xl">Quang Truong</div>
       <div className="flex gap-2">{handleRenderButtons()}</div>
     </div>
   );
