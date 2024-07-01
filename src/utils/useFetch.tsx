@@ -20,7 +20,7 @@ export const useFetchGitHub = () => {
       const fetchData = async () => {
         dispatch(fetchingStart());
         const octokit = new Octokit({
-          auth: "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",
+          auth: `${process.env.REACT_APP_GITHUB_KEY}`,
         });
   
         try {

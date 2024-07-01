@@ -32,9 +32,9 @@ const Navigation: React.FC = memo(() => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleNavigateToDo = () => {
+  const handleNavigateToDo = useCallback(() => {
     navigate("/to-do");
-  };
+  }, [navigate]);
 
   const handleNavigate = useCallback((address: string) => {
     const newTab = socialMediaLink.find((link) => link.name === address);
@@ -67,7 +67,7 @@ const Navigation: React.FC = memo(() => {
         />
       </>
     );
-  }, []);
+  }, [dispatch, handleNavigate, handleNavigateToDo]);
 
   return (
     <div className="w-[100%] flex items-center justify-between max-lg:px-5">
