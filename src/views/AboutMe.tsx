@@ -1,9 +1,12 @@
 import { Loading, Button } from "../main/components/index";
 import { LuUserPlus } from "react-icons/lu";
 import { useGetUserByNameQuery } from "../redux/page/pageSlice";
+import Portfolio from "./Portfolio";
 
 const AboutMe = () => {
-  const { data, isLoading } = useGetUserByNameQuery(`${process.env.REACT_APP_GITHUB_NAME}`);
+  const { data, isLoading } = useGetUserByNameQuery(
+    `${process.env.REACT_APP_GITHUB_NAME}`
+  );
 
   return (
     <div className="flex align-center min-h-screen justify-center items-center max-lg:text-sm">
@@ -21,7 +24,7 @@ const AboutMe = () => {
         </>
       ) : (
         <div className="animate-fadeIn">
-          <div className="hero bg-base-100">
+          <div className="hero bg-base-100 h-screen max-lg:py-8">
             <div className="hero-content flex-col lg:flex-row">
               <img
                 alt="imagemyself"
@@ -33,8 +36,7 @@ const AboutMe = () => {
                   {data?.bio}
                 </h1>
                 <p>
-                  I graduated in 2018 in Helsinki, Finland, with bachelor degree
-                  in Renewable Energy Technology.
+                  With great power comes great electricity !
                 </p>
 
                 <div className="stats lg:stats-horizontal shadow">
@@ -56,6 +58,8 @@ const AboutMe = () => {
               </div>
             </div>
           </div>
+
+          <Portfolio />
         </div>
       )}
     </div>
