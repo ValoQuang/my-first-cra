@@ -3,7 +3,7 @@ import { LuUserPlus } from "react-icons/lu";
 import { useGetUserByNameQuery } from "../redux/page/pageSlice";
 
 const AboutMe = () => {
-  const { data, isLoading } = useGetUserByNameQuery("ValoQuang");
+  const { data, isLoading } = useGetUserByNameQuery(`${process.env.REACT_APP_GITHUB_NAME}`);
 
   return (
     <div className="flex align-center min-h-screen justify-center items-center max-lg:text-sm">
