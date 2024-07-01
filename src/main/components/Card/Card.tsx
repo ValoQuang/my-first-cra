@@ -2,7 +2,19 @@ import React from "react";
 import Button from "../Button/Button";
 import { LuSendHorizonal } from "react-icons/lu";
 
-const Card = ({ value }: any) => {
+interface Project {
+  name: string;
+  description: string;
+  image: string;
+  link: string;
+  tech: string[];
+}
+
+type CardProp = {
+  value: Project;
+}
+
+const Card = ({ value }: CardProp) => {
   return (
     <div>
       <div className="card bg-base-100 w-96 shadow-xl hover:scale-105 transition-all">
