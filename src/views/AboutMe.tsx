@@ -1,13 +1,13 @@
 import { Loading, Button } from "../main/components/index";
-import { useFetchGitHub } from "../hooks/useFetch";
 import { LuUserPlus } from "react-icons/lu";
+import { useGetUserByNameQuery } from "../redux/page/pageSlice";
 
 const AboutMe = () => {
-  const { data, loading, error } = useFetchGitHub();
+  const { data, isLoading } = useGetUserByNameQuery("ValoQuang");
 
   return (
     <div className="flex align-center min-h-screen justify-center items-center max-lg:text-sm">
-      {data == null && loading && error ? (
+      {!data && isLoading ? (
         <>
           <div className="flex w-full flex-col h-full gap-4">
             <Loading />
