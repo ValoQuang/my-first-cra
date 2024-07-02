@@ -1,8 +1,18 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { themeReducer, taskReducer } from "./index";
-import { persistReducer, persistStore } from "redux-persist";
+
 import storage from "redux-persist/lib/storage";
 import { githubApi } from "./page/pageSlice";
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from "redux-persist";
 
 export type StoreState = ReturnType<typeof rootReducer>;
 
@@ -15,14 +25,18 @@ const persistConfig = {
   key: "root",
   storage,
   version: 1,
-  whitelist: ["theme"],
+  whitelist: ["theme", "task"],
 };
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(githubApi.middleware),
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }).concat(githubApi.middleware),
 });
 
 export const persistor = persistStore(store);

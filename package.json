@@ -15,7 +15,6 @@
     "aos": "^2.3.4",
     "install": "^0.13.0",
     "npm": "^10.8.1",
-    "octokit": "^4.0.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.52.0",
@@ -25,6 +24,7 @@
     "react-scripts": "5.0.1",
     "redux-persist": "^6.0.0",
     "typescript": "^4.9.5",
+    "uuid": "^10.0.0",
     "web-vitals": "^2.1.4",
     "zod": "^3.23.8"
   },
@@ -53,7 +53,11 @@
     ]
   },
   "devDependencies": {
+<<<<<<< HEAD
     "@types/aos": "^3.0.7",
+=======
+    "@types/uuid": "^10.0.0",
+>>>>>>> b1ef0b4 (update/console-error-log)
     "daisyui": "^4.12.10",
     "tailwindcss": "^3.4.4"
   }

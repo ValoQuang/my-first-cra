@@ -1,2 +1,2 @@
 export { default as AboutMe } from "./AboutMe";
-export { default as Achievement } from "./Achievement";
+export { default as Achievement } from "./Achieved";

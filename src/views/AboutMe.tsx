@@ -2,7 +2,7 @@ import { Loading, Button } from "../main/components/index";
 import { LuUserPlus } from "react-icons/lu";
 import { useGetUserByNameQuery } from "../redux/page/pageSlice";
 import Portfolio from "./Portfolio";
-import { useRef } from "react";
+import { MutableRefObject, useCallback, useRef } from "react";
 import Biography from "./Biography";
 
 const AboutMe = () => {
@@ -11,9 +11,9 @@ const AboutMe = () => {
     `${process.env.REACT_APP_GITHUB_NAME}`
   );
 
-  const handleScrollToSection = (ref: any) => {
-    ref.current.scrollIntoView({ behavior: "smooth" });
-  };
+  const handleScrollToSection = useCallback((ref: MutableRefObject<HTMLElement | null>) => {
+    ref.current?.scrollIntoView({ behavior: "smooth" });
+  }, []);
 
   return (
     <div className="flex align-center min-h-screen justify-center items-center max-lg:text-sm">

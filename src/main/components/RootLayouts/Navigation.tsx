@@ -51,12 +51,7 @@ const Navigation: React.FC = memo(() => {
         />
         {socialMediaLink.map((value, index) => (
           <div key={index}>
-            <a href={value.link}>
-              <Button
-                title={value.name}
-                icon={value.icon}
-              />
-            </a>
+            <Button title={value.name} icon={value.icon} />
           </div>
         ))}
         <Button

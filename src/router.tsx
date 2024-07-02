@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
 import AboutMe from "./views/AboutMe";
-import Achievement from "./views/Achievement";
+import Achievement from "./views/Achieved";
 
 export const router = createBrowserRouter([
   {
