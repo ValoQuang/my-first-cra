@@ -44,10 +44,10 @@ const Navigation: React.FC = memo(() => {
     return (
       <>
         <Button
-          title="To-Do App"
-          onClick={() => handleNavigate("/to-do")}
+          title="Achievement App"
+          onClick={() => handleNavigate("/achievement")}
           icon={<LuBookOpenCheck />}
-          anchor="to-do"
+          anchor="achievement"
         />
         {socialMediaLink.map((value, index) => (
           <div key={index}>

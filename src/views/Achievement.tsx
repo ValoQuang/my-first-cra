@@ -1,5 +1,4 @@
-import { AchievementForm, AchievementList } from "../main/components";
-//import { addContact } from '../redux/actions';
+import { Form, AchievementList } from "../main/components/Achievement";
 
 const ToDo = () => {
   return (
@@ -8,7 +7,7 @@ const ToDo = () => {
         <AchievementList />
       </div>
       <div className="w-1/3 max-lg:w-full">
-        <AchievementForm />
+        <Form />
       </div>
     </div>
   );

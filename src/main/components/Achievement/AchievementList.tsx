@@ -18,10 +18,10 @@ const AchievementList = () => {
         className="hover:cursor-pointer hover:transition-all hover:translate-x-1"
         key={index}
       >
-        <th className="w-10">{indexOfFirstTask + index + 1}</th>
-        <td className="w-24">{task.name}</td>
+        <td className="w-24">{task.title}</td>
         <td className="w-64">{task.message}</td>
-        <td className="w-24">{task.email}</td>
+        <td className="w-24">{task.date}</td>
+        <td className="w-24">{task.time}</td>
       </tr>
     ));
   };
@@ -39,7 +39,7 @@ const AchievementList = () => {
         <button
           key={i}
           className={`px-3 py-1 mr-2 ${
-            currentPage === i ? "bg-blue-500 text-white" : "bg-gray-300"
+            currentPage === i ? "bg-blue-300 text-white" : "bg-gray-300"
           }`}
           onClick={() => handlePageChange(i)}
         >
@@ -51,15 +51,15 @@ const AchievementList = () => {
   };
 
   return (
-    <div className="w-full border-solid h-[500px] max-lg:h-[250px] border-1 overflow-y-scroll">
+    <div className="w-full border-solid h-[550px] max-lg:h-[250px] border-1 overflow-y-scroll flex flex-col justify-between">
       <div className="overflow-x-auto">
         <table className="table">
           <thead>
             <tr>
-              <th className="w-10">Job no</th>
-              <th className="w-24">Name</th>
-              <th className="w-64">Task</th>
-              <th className="w-24">Email</th>
+              <th className="w-10">Title</th>
+              <th className="w-64">Description</th>
+              <th className="w-24">Date</th>
+              <th className="w-24">Time</th>
             </tr>
           </thead>
           <tbody>{renderTasks()}</tbody>

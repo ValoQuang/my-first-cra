@@ -1,9 +1,10 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 export interface Task {
-  name: string;
-  email: string;
+  title: string;
   message: string;
+  date: string; 
+  time: string;
 }
 
 interface TaskState {
@@ -22,18 +23,18 @@ const taskSlice = createSlice({
       reducer: (state, action: PayloadAction<Task>) => {
         state.tasks.push(action.payload);
       },
-      prepare: ({name, email, message}: Task) => ({
+      prepare: ({ title, message, date, time }: Task) => ({
         payload: {
-          name,
-          email,
+          title,
           message,
+          date,
+          time,
         },
       }),
     },
     handleDeleteTask: (state, action: PayloadAction<string>) => {
-      //state.tasks = state.tasks.filter(task => task.id !== action.payload);
+      state.tasks = state.tasks.filter(task => task.title !== action.payload);
     },
-   
   },
 });
 

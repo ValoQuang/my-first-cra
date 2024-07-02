@@ -1,2 +1,2 @@
-export { default as AchievementForm } from "./AchievementForm";
+export { default as Form } from "./Form";
 export { default as AchievementList } from "./AchievementList";
