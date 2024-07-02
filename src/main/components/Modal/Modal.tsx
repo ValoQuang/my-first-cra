@@ -2,14 +2,12 @@ import { useEffect, useState } from "react";
 import { Task } from "../../../redux/task/taskSlice";
 import { Button } from "../Button";
 import { schema } from "../../../utils";
-import { useDispatch } from "react-redux";
 
 type ModalType = {
   pickedAchieve: Task | null | undefined;
 };
 
 const Modal = ({ pickedAchieve }: ModalType) => {
-  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     title: pickedAchieve?.title || "",
     message: pickedAchieve?.message || "",

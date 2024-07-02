@@ -154,7 +154,7 @@ const AchievedList = () => {
         </section>
       </div>
 
-      <div className="w-full border-solid h-2/3 max-lg:h-[250px] border-1 overflow-y-scroll flex flex-col justify-between">
+      <div className="w-full border-solid h-2/3 max-lg:h-[280px] border-1 overflow-y-scroll flex flex-col justify-between">
         <div className="overflow-x-auto">
           <table className="table">
             <thead className="text-sm">

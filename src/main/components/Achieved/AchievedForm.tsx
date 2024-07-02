@@ -35,7 +35,6 @@ const AchievedForm = () => {
           setLoading(false);
           setFetchError(false);
           const weatherData = await response.json();
-          //goveData about humidity, random location in Singapore
           const taskData = {
             id: uuidv4(),
             title: data.title,
@@ -44,6 +43,9 @@ const AchievedForm = () => {
             weather: weatherData?.items[0].readings[0].value,
           };
           dispatch(handleAddTask(taskData));
+        } 
+        if (response.status === 500) {
+          setFetchError(true);
         }
       } catch (error: any) {
         console.error(error.message);
@@ -81,7 +83,7 @@ const AchievedForm = () => {
   );
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="max-lg:relative max-lg:bottom-72 flex flex-col items-center">
       <form
         className="text-sm h-screen w-full flex flex-col gap-5"
         onSubmit={handleSubmit(onSubmit as any)}
