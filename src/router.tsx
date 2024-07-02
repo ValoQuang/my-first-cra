@@ -1,7 +1,7 @@
-import { Form, createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
-import ToDo from "./views/ToDo";
 import AboutMe from "./views/AboutMe";
+import Achievement from "./views/Achievement";
 
 export const router = createBrowserRouter([
   {
@@ -18,11 +18,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "to-do",
-        element: <ToDo />,
-      },
-      {
-        path: "form",
-        element: <Form />,
+        element: <Achievement />,
       },
     ],
   },
