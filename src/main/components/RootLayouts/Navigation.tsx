@@ -47,11 +47,12 @@ const Navigation: React.FC = memo(() => {
           title="Achievement App"
           onClick={() => handleNavigate("/achievement")}
           icon={<LuBookOpenCheck />}
-          anchor="achievement"
         />
         {socialMediaLink.map((value, index) => (
           <div key={index}>
-            <Button title={value.name} icon={value.icon} />
+            <a href={value.link}>
+              <Button title={value.name} icon={value.icon} />
+            </a>
           </div>
         ))}
         <Button

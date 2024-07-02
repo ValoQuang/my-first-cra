@@ -78,25 +78,8 @@ const AchievedForm = () => {
     [reset]
   );
 
-  const handleSearch = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const searchTerm = e.target.value;
-      if (searchTerm.trim() !== "") {
-        dispatch(handleSearchTask(searchTerm));
-      } else {
-        dispatch(handleClearSearchResult());
-      }
-    },
-    [dispatch]
-  );
-
   return (
     <div className="pt-3 flex flex-col">
-      <label className="input input-bordered flex items-center gap-2">
-        <input type="text" onChange={handleSearch} className="grow" placeholder="Search for title" />
-        <LuSearch />
-      </label>
-
       <form
         className="text-sm h-screen w-full flex flex-col gap-5"
         onSubmit={handleSubmit(onSubmit as any)}

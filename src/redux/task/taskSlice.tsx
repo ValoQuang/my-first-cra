@@ -14,7 +14,7 @@ interface TaskState {
 
 const initialState: TaskState = {
   tasks: [],
-  searchResult: []
+  searchResult: [],
 };
 
 const taskSlice = createSlice({
@@ -25,8 +25,12 @@ const taskSlice = createSlice({
       state.tasks.push(action.payload);
     },
     handleDeleteTask: (state, action: PayloadAction<string>) => {
-      const mainIndex = state.tasks.findIndex(task => task.id === action.payload);
-      const searchIndex = state.searchResult.findIndex(task => task.id === action.payload);
+      const mainIndex = state.tasks.findIndex(
+        (task) => task.id === action.payload
+      );
+      const searchIndex = state.searchResult.findIndex(
+        (task) => task.id === action.payload
+      );
       if (mainIndex !== -1) {
         state.tasks.splice(mainIndex, 1);
       }
@@ -34,20 +38,34 @@ const taskSlice = createSlice({
         state.searchResult.splice(searchIndex, 1);
       }
     },
-    handleSortTask: () => {},
+    handleSortTask: (state, action: PayloadAction<"asc" | "desc">) => {
+      const { payload: sortOrder } = action;
+      state.tasks.sort((a, b) => {
+        const dateA = new Date(a.datetime).getTime();
+        const dateB = new Date(b.datetime).getTime();
+        if (sortOrder === "asc") {
+          return dateA - dateB;
+        } else {
+          return dateB - dateA;
+        }
+      });
+    },
 
     handleSearchTask: (state, action: PayloadAction<string>) => {
       const searchTerm = action.payload.trim().toLowerCase(); // Convert to lowercase and trim whitespace
-      state.searchResult = state.tasks.filter(task =>
+      state.searchResult = state.tasks.filter((task) =>
         task.title.toLowerCase().includes(searchTerm)
       );
     },
     handleClearSearchResult: (state) => {
       state.searchResult = [];
     },
-    handleEditTask: (state, action: PayloadAction<{ title: string; updatedTask: Partial<Task> }>) => {
+    handleEditTask: (
+      state,
+      action: PayloadAction<{ title: string; updatedTask: Partial<Task> }>
+    ) => {
       const { title, updatedTask } = action.payload;
-      const task = state.tasks.find(task => task.title === title);
+      const task = state.tasks.find((task) => task.title === title);
       if (task) {
         Object.assign(task, updatedTask);
       }
@@ -55,5 +73,12 @@ const taskSlice = createSlice({
   },
 });
 
-export const { handleAddTask, handleEditTask, handleClearSearchResult, handleSearchTask, handleDeleteTask } = taskSlice.actions;
+export const {
+  handleAddTask,
+  handleEditTask,
+  handleSortTask,
+  handleClearSearchResult,
+  handleSearchTask,
+  handleDeleteTask,
+} = taskSlice.actions;
 export default taskSlice.reducer;
