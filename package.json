@@ -53,11 +53,8 @@
     ]
   },
   "devDependencies": {
-<<<<<<< HEAD
     "@types/aos": "^3.0.7",
-=======
     "@types/uuid": "^10.0.0",
->>>>>>> b1ef0b4 (update/console-error-log)
     "daisyui": "^4.12.10",
     "tailwindcss": "^3.4.4"
   }
