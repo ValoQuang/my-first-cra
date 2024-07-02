@@ -12,7 +12,7 @@ interface Project {
 
 type CardProp = {
   value: Project;
-}
+};
 
 const Card = ({ value }: CardProp) => {
   return (
@@ -25,10 +25,15 @@ const Card = ({ value }: CardProp) => {
           <h2 className="card-title">{value.name}</h2>
           <p className="text-sm">{value?.description}</p>
           <div className="card-actions justify-end">
-            <div className="badge badge-outline">Fashion</div>
-            <div className="badge badge-outline">Products</div>
+            {value.tech.map((stack, index) => {
+              return <div key={index} className="badge badge-outline">{stack}</div>;
+            })}
           </div>
-          <Button icon={<LuSendHorizonal />}anchor={value?.link} title="Link" />
+          <Button
+            icon={<LuSendHorizonal />}
+            anchor={value?.link}
+            title="Link"
+          />
         </div>
       </div>
     </div>

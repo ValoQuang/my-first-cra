@@ -3,6 +3,7 @@ import { LuUserPlus } from "react-icons/lu";
 import { useGetUserByNameQuery } from "../redux/page/pageSlice";
 import Portfolio from "./Portfolio";
 import { useRef } from "react";
+import Biography from "./Biography";
 
 const AboutMe = () => {
   const section3Ref = useRef(null);
@@ -64,6 +65,7 @@ const AboutMe = () => {
           </div>
 
           <div ref={section3Ref}>
+            <Biography />
             <Portfolio />
           </div>
         </div>
