@@ -70,7 +70,13 @@ const Navigation: React.FC = memo(() => {
         className="text-3xl hover:cursor-pointer"
         onClick={() => handleNavigate("/")}
       >
-        <a href="/">Quang Truong</a>
+        <a href="/">
+          <img
+            alt="logo"
+            className="mask mask-hexagon-2 w-16 h-16 animate-fadeIn"
+            src="https://i0.wp.com/picjumbo.com/wp-content/uploads/touch-of-life-fingers-on-plasma-ball-lamp.jpg?w=2210&quality=70"
+          />
+        </a>
       </div>
       <div className="flex gap-2 max-lg:hidden">{handleRenderButtons()}</div>
 

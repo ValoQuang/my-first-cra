@@ -1,36 +1,19 @@
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useDispatch } from "react-redux";
 import { Button } from "../Button";
-import {
-  LuSendHorizonal,
-  LuUndo2,
-  LuCalendarDays,
-  LuSearch,
-} from "react-icons/lu";
-import { Task, handleAddTask, handleClearSearchResult, handleSearchTask } from "../../../redux/task/taskSlice";
-import { useCallback } from "react";
+import { LuSendHorizonal, LuUndo2, LuCalendarDays } from "react-icons/lu";
+import { Task, handleAddTask } from "../../../redux/task/taskSlice";
+import { useCallback, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-
-const schema = z.object({
-  title: z
-    .string()
-    .min(1, "Title is required")
-    .max(50, "Title must be at most 50 characters"),
-  message: z
-    .string()
-    .min(1, "Message is required")
-    .max(300, "Message must be at most 300 characters"),
-  datetime: z
-    .string()
-    .refine((value) => /^\d{2}:\d{2} \d{2}-\d{2}-\d{4}$/.test(value), {
-      message: "Date time with correct format is required",
-    }),
-});
+import { schema } from "../../../utils";
+import { Loading } from "../Loading";
 
 const AchievedForm = () => {
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
+  const [fetchError, setFetchError] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -42,15 +25,33 @@ const AchievedForm = () => {
   });
 
   const onSubmit = useCallback(
-    (data: Task) => {
-      const taskData = {
-        id: uuidv4(),
-        title: data.title,
-        message: data.message,
-        datetime: data.datetime,
-      };
-      dispatch(handleAddTask(taskData));
-      reset();
+    async (data: Task) => {
+      try {
+        setLoading(true);
+        const response = await fetch(
+          `https://api.data.gov.sg/v1/environment/relative-humidity?date_time=${data.datetime}`
+        );
+        if (response.ok) {
+          setLoading(false);
+          setFetchError(false);
+          const weatherData = await response.json();
+          //goveData about humidity, random location in Singapore
+          const taskData = {
+            id: uuidv4(),
+            title: data.title,
+            message: data.message,
+            datetime: data.datetime,
+            weather: weatherData?.items[0].readings[0].value,
+          };
+          dispatch(handleAddTask(taskData));
+        }
+      } catch (error: any) {
+        console.error(error.message);
+        setFetchError(true);
+      } finally {
+        setLoading(false);
+        reset();
+      }
     },
     [dispatch, reset]
   );
@@ -64,7 +65,8 @@ const AchievedForm = () => {
       const year = currentDate.getFullYear();
       const hours = String(currentDate.getHours()).padStart(2, "0");
       const minutes = String(currentDate.getMinutes()).padStart(2, "0");
-      const formattedDateTime = `${hours}:${minutes} ${day}-${month}-${year}`;
+      const seconds = String(currentDate.getSeconds()).padStart(2, "0");
+      const formattedDateTime = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
       setValue("datetime", formattedDateTime);
     },
     [setValue]
@@ -79,7 +81,7 @@ const AchievedForm = () => {
   );
 
   return (
-    <div className="pt-3 flex flex-col">
+    <div className="flex flex-col items-center">
       <form
         className="text-sm h-screen w-full flex flex-col gap-5"
         onSubmit={handleSubmit(onSubmit as any)}
@@ -117,7 +119,7 @@ const AchievedForm = () => {
 
           <section>
             <div className="flex justify-between">
-              <label htmlFor="datetime">DateTime (HH:MM DD-MM-YYYY)</label>
+              <label htmlFor="datetime">DateTime (HH:MM YYYY-MM-DD)</label>
               {errors.datetime && (
                 <p className="text-red-500">
                   {errors.datetime.message as string}
@@ -132,18 +134,26 @@ const AchievedForm = () => {
                 placeholder="HH:MM DD-MM-YYYY"
               />
               <Button
-
                 onClick={handleAutoFillDateTime}
                 icon={<LuCalendarDays />}
               />
             </div>
           </section>
         </div>
-
         <div className="flex justify-between">
-          <Button icon={<LuSendHorizonal />} title="Submit" />
+          {loading ? (
+            <Loading />
+          ) : (
+            <Button icon={<LuSendHorizonal />} title="Submit" />
+          )}
           <Button onClick={handleReset} icon={<LuUndo2 />} title="Reset" />
         </div>
+        {fetchError && (
+          <p className="text-red-500">
+            This error is due to api failture, check the date if it is valid.
+            The date must be within range and not in the future !
+          </p>
+        )}
       </form>
     </div>
   );

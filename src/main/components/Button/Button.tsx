@@ -18,7 +18,7 @@ const Button = ({ title, icon, onClick, disabled }: ButtonProp) => {
       >
         <div className="lg:hidden">{icon}</div>
         <div className="max-lg:hidden">{icon}</div>
-        <div className="max-lg:hidden">{header}</div>
+        {header && <div className="max-lg:hidden">{header}</div>}
       </button>
     </div>
   );

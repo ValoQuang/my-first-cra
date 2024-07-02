@@ -2,7 +2,7 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { themeReducer, taskReducer } from "./index";
 
 import storage from "redux-persist/lib/storage";
-import { githubApi } from "./page/pageSlice";
+import { githubApi } from "./page/githubSlice";
 import {
   persistStore,
   persistReducer,
