@@ -17,7 +17,7 @@ import React from "react";
 
 const AchievedForm = () => {
   const dispatch = useDispatch();
-  const [getHumidity, { isFetching, error:isHumidError }] =
+  const [getHumidity, { isFetching, error: isHumidError }] =
     getAchievementDataApi.useLazyGetHumidityDataQuery();
   const [getTemperature, { isFetching: isTempFetching, error: isTempError }] =
     getAchievementDataApi.useLazyGetTemperatureDataQuery();
@@ -55,7 +55,7 @@ const AchievedForm = () => {
       } catch (error: any) {
         console.error(error);
       } finally {
-       reset();
+        reset();
       }
     },
     [dispatch, getHumidity, getTemperature, reset]
@@ -87,74 +87,79 @@ const AchievedForm = () => {
       >
         <div className="flex flex-col gap-2">
           <section>
-            <div className="flex justify-between">
-              <label htmlFor="title">Title</label>
-              {errors.title && (
-                <p className="text-red-500">{errors.title.message as string}</p>
-              )}
-            </div>
-            <textarea
-              className="textarea textarea-bordered w-full"
-              id="title"
-              {...register("title")}
-            />
+            <label className="input input-bordered w-full flex items-center gap-2">
+              <input
+                type="text"
+                {...register("title")}
+                className="grow"
+                placeholder="What did you achieve today ?"
+              />
+            </label>
+            {errors.title && (
+              <p className="text-red-500 text-sm">
+                {errors.title.message as string}
+              </p>
+            )}
           </section>
 
           <section>
-            <div className="flex justify-between">
-              <label htmlFor="message">Description</label>
-              {errors.message && (
-                <p className="text-red-500">
-                  {errors.message.message as string}
-                </p>
-              )}
-            </div>
+            <div className="flex justify-between"></div>
             <textarea
               className="textarea textarea-bordered w-full"
               id="message"
+              placeholder="Describe abit more"
               {...register("message")}
             />
+            {errors.message && (
+              <p className="text-red-500">{errors.message.message as string}</p>
+            )}
           </section>
 
           <section>
-            <div className="flex justify-between">
-              <label htmlFor="datetime">DateTime (HH:MM YYYY-MM-DD)</label>
-              {errors.datetime && (
-                <p className="text-red-500">
-                  {errors.datetime.message as string}
-                </p>
-              )}
-            </div>
             <div className="flex gap-1 justify-between">
-              <input
-                className="input input-bordered w-full max-w-xs"
-                id="datetime"
-                {...register("datetime")}
-                placeholder="HH:MM DD-MM-YYYY"
-              />
-              <Button
-                onClick={handleAutoFillDateTime}
-                icon={<LuCalendarDays />}
-              />
+            <label className="input input-bordered w-full flex items-center gap-2">
+                <input
+                  className="grow"
+                  id="datetime"
+                  {...register("datetime")}
+                  placeholder="Date time HH:MM DD-MM-YYYY"
+                />
+              </label>
+              <div className="w-fit">
+                {" "}
+                <Button
+                  onClick={handleAutoFillDateTime}
+                  icon={<LuCalendarDays />}
+                />
+              </div>
             </div>
+            {errors.datetime && (
+              <p className="text-red-500">
+                {errors.datetime.message as string}
+              </p>
+            )}
           </section>
         </div>
-        <div className="flex justify-between">
+        <div className="flex justify-between gap-1">
           {isFetching && isTempFetching ? (
             <Loading />
           ) : (
-            <Button icon={<LuSendHorizonal />} title="Submit" />
+            <div className="w-1/2">
+              <Button icon={<LuSendHorizonal />} title="Submit" />
+            </div>
           )}
           {Object.keys(watchedFields).length > 0 && (
-            <Button onClick={handleReset} icon={<LuUndo2 />} title="Reset" />
+            <div className="w-1/2">
+              <Button onClick={handleReset} icon={<LuUndo2 />} title="Reset" />
+            </div>
           )}
         </div>
         {(isHumidError || isTempError) && (
-            <p className="text-red-500">
-              This error is due to api failture, check the date if it is valid.
-              The date must be within range and not in the future !
-            </p>
-          )}
+          <p className="text-red-500">
+            This error is due to api failture, check the date if it is valid.
+            The date must be within range and not in the future !
+          </p>
+        )}
       </form>
     </div>
   );

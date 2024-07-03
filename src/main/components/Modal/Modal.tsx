@@ -33,10 +33,10 @@ const Modal = ({ pickedAchieve }: ModalProps) => {
   }, [currentAchievement]);
 
   const handleChange = useCallback(
-    (id: keyof AchievementType, value: React.ChangeEvent<HTMLTextAreaElement>) => {
+    (id: keyof AchievementType, text: React.ChangeEvent<HTMLTextAreaElement>) => {
       setFormData((prev) => ({
         ...prev,
-        [id]: value,
+        [id]: text.target.value,
       }));
     },
     []
@@ -103,15 +103,16 @@ const Modal = ({ pickedAchieve }: ModalProps) => {
             {errors.message && <p className="text-red-500">{errors.message}</p>}
           </section>
           <div className="modal-action">
-            <Button
-              title="Save change"
-              icon={<LuCheck />}
-              onClick={handleUpdateAchieve}
-            />
+            
             <form
               method="dialog"
               className="flex gap-2 justify-between align-middle items-center"
             >
+              <Button
+              title="Save change"
+              icon={<LuCheck />}
+              onClick={handleUpdateAchieve}
+            />
               {" "}
               <Button icon={<LuX />} onClick={handleCloseModal} title="Close" />
             </form>
