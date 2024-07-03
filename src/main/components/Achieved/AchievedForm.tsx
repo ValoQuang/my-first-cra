@@ -14,6 +14,7 @@ import { Loading } from "../Loading";
 import { getAchievementDataApi } from "../../../redux/achievement/achievementApi";
 import dayjs from "dayjs";
 import React from "react";
+import { showToastError, showToastSuccess } from "../Toast/Toast";
 
 const AchievedForm = () => {
   const dispatch = useDispatch();
@@ -51,9 +52,11 @@ const AchievedForm = () => {
             temperature: response[1].items[0].readings[0].value,
           };
           dispatch(handleAddTask(achievementData));
+          showToastSuccess('Achievement added successfully!');
         }
       } catch (error: any) {
         console.error(error);
+        showToastError('Error occurred while performing operation.');
       } finally {
         reset();
       }
@@ -95,11 +98,14 @@ const AchievedForm = () => {
                 placeholder="What did you achieve today ?"
               />
             </label>
-            {errors.title && (
-              <p className="text-red-500 text-sm">
-                {errors.title.message as string}
-              </p>
-            )}
+            <div className="h-5">
+              {" "}
+              {errors.title && (
+                <p className="text-red-500 text-sm">
+                  {errors.title.message as string}
+                </p>
+              )}
+            </div>
           </section>
 
           <section>
@@ -110,14 +116,18 @@ const AchievedForm = () => {
               placeholder="Describe abit more"
               {...register("message")}
             />
-            {errors.message && (
-              <p className="text-red-500">{errors.message.message as string}</p>
-            )}
+            <div className="h-5">
+              {errors.message && (
+                <p className="text-red-500">
+                  {errors.message.message as string}
+                </p>
+              )}
+            </div>
           </section>
 
           <section>
             <div className="flex gap-1 justify-between">
-            <label className="input input-bordered w-full flex items-center gap-2">
+              <label className="input input-bordered w-full flex items-center gap-2">
                 <input
                   className="grow"
                   id="datetime"
@@ -133,14 +143,16 @@ const AchievedForm = () => {
                 />
               </div>
             </div>
-            {errors.datetime && (
-              <p className="text-red-500">
-                {errors.datetime.message as string}
-              </p>
-            )}
+            <div className="h-5">
+              {errors.datetime && (
+                <p className="text-red-500">
+                  {errors.datetime.message as string}
+                </p>
+              )}
+            </div>
           </section>
         </div>
-        <div className="flex justify-between gap-1">
+        <div className="flex justify-between gap-1 pt-2">
           {isFetching && isTempFetching ? (
             <Loading />
           ) : (

@@ -14,6 +14,7 @@ import {
   handleDeleteTask,
 } from "../../../redux/achievement/achievementSlice";
 import Modal from "../Modal/Modal";
+import { showToastSuccess } from "../Toast/Toast";
 
 const AchievedList = () => {
   const { tasks } = useSelector((state: StoreState) => state.task);
@@ -46,6 +47,7 @@ const AchievedList = () => {
   const handleDeleteAchieved = useCallback(
     (id: string) => {
       dispatch(handleDeleteTask(id));
+      showToastSuccess("Achiemevent deleted successfully !")
     },
     [dispatch]
   );
@@ -75,6 +77,7 @@ const AchievedList = () => {
 
   const handleSortAchieved = () => {
     setAscend((prevAscend) => !prevAscend);
+    showToastSuccess(ascend ? "Ascending order by date" : "Descending order by date");
   };
 
   const currentTasks = filteredData.slice(
@@ -97,7 +100,7 @@ const AchievedList = () => {
             key={index + 1}
             className={`px-2 py-1 mr-2 ${
               currentPage === index + 1
-                ? "bg-slate-300 text-white"
+                ? "bg-slate-500 text-white text-sm"
                 : "bg-gray-100"
             }`}
             onClick={() => handlePageChange(index + 1)}
@@ -144,7 +147,7 @@ const AchievedList = () => {
       <div className="flex gap-2 items-center mb-5">
         <section>
           <div className="flex gap-2 items-center">
-            <label className="input input-bordered w-1/2 flex items-center gap-2">
+            <label className="input input-bordered w-1/2 max-lg:w-full flex items-center gap-2">
               <input
                 type="text"
                 onChange={handleSearchAchieved}

@@ -7,6 +7,7 @@ import { Button } from "../Button";
 import { schema } from "../../../utils";
 import { useDispatch } from "react-redux";
 import { LuX, LuCheck } from "react-icons/lu";
+import { showToastError, showToastSuccess } from "../Toast/Toast";
 
 type ModalProps = {
   pickedAchieve: AchievementType | null | undefined;
@@ -14,14 +15,17 @@ type ModalProps = {
 
 const Modal = ({ pickedAchieve }: ModalProps) => {
   const dispatch = useDispatch();
-  const currentAchievement: AchievementType = useMemo(() => ({
-    id: pickedAchieve?.id || "",
-    title: pickedAchieve?.title || "",
-    message: pickedAchieve?.message || "",
-    humidity: pickedAchieve?.humidity || "",
-    temperature: pickedAchieve?.temperature || "",
-    datetime: pickedAchieve?.datetime || "",
-  }), [pickedAchieve]);
+  const currentAchievement: AchievementType = useMemo(
+    () => ({
+      id: pickedAchieve?.id || "",
+      title: pickedAchieve?.title || "",
+      message: pickedAchieve?.message || "",
+      humidity: pickedAchieve?.humidity || "",
+      temperature: pickedAchieve?.temperature || "",
+      datetime: pickedAchieve?.datetime || "",
+    }),
+    [pickedAchieve]
+  );
 
   const [formData, setFormData] = useState<AchievementType>(currentAchievement);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
@@ -33,7 +37,10 @@ const Modal = ({ pickedAchieve }: ModalProps) => {
   }, [currentAchievement]);
 
   const handleChange = useCallback(
-    (id: keyof AchievementType, text: React.ChangeEvent<HTMLTextAreaElement>) => {
+    (
+      id: keyof AchievementType,
+      text: React.ChangeEvent<HTMLTextAreaElement>
+    ) => {
       setFormData((prev) => ({
         ...prev,
         [id]: text.target.value,
@@ -53,9 +60,11 @@ const Modal = ({ pickedAchieve }: ModalProps) => {
         {}
       );
       setErrors(newErrors);
+      showToastError("Check your input !");
     } else {
       setErrors({});
       dispatch(handleEditTask(formData));
+      showToastSuccess("Achiemevent updated successfully !");
     }
   }, [dispatch, formData]);
 
@@ -103,17 +112,15 @@ const Modal = ({ pickedAchieve }: ModalProps) => {
             {errors.message && <p className="text-red-500">{errors.message}</p>}
           </section>
           <div className="modal-action">
-            
-            <form
-              method="dialog"
-              className="flex gap-2 justify-between align-middle items-center"
-            >
-              <Button
+            <Button
               title="Save change"
               icon={<LuCheck />}
               onClick={handleUpdateAchieve}
             />
-              {" "}
+            <form
+              method="dialog"
+              className="flex gap-2 justify-between align-middle items-center"
+            >
               <Button icon={<LuX />} onClick={handleCloseModal} title="Close" />
             </form>
           </div>

@@ -1,3 +1,4 @@
+import { Toast } from "../main/components";
 import { AchievedForm, AchievedList } from "../main/components/Achieved";
 
 const ToDo = () => {
@@ -9,6 +10,7 @@ const ToDo = () => {
       <div className="w-1/3 max-lg:w-full">
         <AchievedForm />
       </div>
+      <Toast />
     </div>
   );
 };
