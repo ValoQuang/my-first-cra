@@ -14,7 +14,7 @@ const Button = ({ title, icon, onClick, disabled }: ButtonProp) => {
       <button
         disabled={disabled}
         onClick={onClick}
-        className="btn btn-md btn-outline"
+        className="btn btn-md btn-outline w-full"
       >
         <div className="lg:hidden">{icon}</div>
         <div className="max-lg:hidden">{icon}</div>

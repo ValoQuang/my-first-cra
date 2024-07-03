@@ -13,12 +13,13 @@ import { schema } from "../../../utils";
 import { Loading } from "../Loading";
 import { getAchievementDataApi } from "../../../redux/achievement/achievementApi";
 import dayjs from "dayjs";
+import React from "react";
 
 const AchievedForm = () => {
   const dispatch = useDispatch();
-  const [getHumidity, { isFetching, isError }] =
+  const [getHumidity, { isFetching, error:isHumidError }] =
     getAchievementDataApi.useLazyGetHumidityDataQuery();
-  const [getTemperature, { isFetching: isTempFetching, isError: isTempError }] =
+  const [getTemperature, { isFetching: isTempFetching, error: isTempError }] =
     getAchievementDataApi.useLazyGetTemperatureDataQuery();
 
   const {
@@ -52,9 +53,9 @@ const AchievedForm = () => {
           dispatch(handleAddTask(achievementData));
         }
       } catch (error: any) {
-        console.error(error.message);
+        console.error(error);
       } finally {
-        reset();
+       reset();
       }
     },
     [dispatch, getHumidity, getTemperature, reset]
@@ -64,7 +65,7 @@ const AchievedForm = () => {
     (event: React.MouseEvent<HTMLButtonElement>) => {
       event.preventDefault();
       const currentDate = new Date().toString();
-      const formattedDate = dayjs(currentDate).format("YYYY-MM-DDTHH:mm:ss");
+      const formattedDate = dayjs(currentDate).format("YYYY-MM-DD[T]HH:mm:ss");
       setValue("datetime", formattedDate);
     },
     [setValue]
@@ -148,13 +149,12 @@ const AchievedForm = () => {
             <Button onClick={handleReset} icon={<LuUndo2 />} title="Reset" />
           )}
         </div>
-        {isError ||
-          (isTempError && (
+        {(isHumidError || isTempError) && (
             <p className="text-red-500">
               This error is due to api failture, check the date if it is valid.
               The date must be within range and not in the future !
             </p>
-          ))}
+          )}
       </form>
     </div>
   );

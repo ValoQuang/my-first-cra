@@ -74,7 +74,7 @@ const Navigation: React.FC = memo(() => {
           <img
             alt="logo"
             className="mask mask-hexagon-2 w-16 h-16 animate-fadeIn"
-            src="https://i0.wp.com/picjumbo.com/wp-content/uploads/touch-of-life-fingers-on-plasma-ball-lamp.jpg?w=2210&quality=70"
+            src="https://scontent-hkg1-2.xx.fbcdn.net/v/t39.30808-6/415595787_7738673536147634_8929925784295944651_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=127cfc&_nc_ohc=LC6R6_rpJFwQ7kNvgGO89zI&_nc_ht=scontent-hkg1-2.xx&oh=00_AYB8huyEbH6-PHXkGdEG2MAtPF2A673RTnc0ZIOvGdA2nQ&oe=668A80F1"
           />
         </a>
       </div>

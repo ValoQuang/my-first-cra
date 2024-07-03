@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   AchievementType,
   handleEditTask,
@@ -8,35 +8,41 @@ import { schema } from "../../../utils";
 import { useDispatch } from "react-redux";
 import { LuX, LuCheck } from "react-icons/lu";
 
-type ModalType = {
+type ModalProps = {
   pickedAchieve: AchievementType | null | undefined;
 };
 
-const Modal = ({ pickedAchieve }: ModalType) => {
+const Modal = ({ pickedAchieve }: ModalProps) => {
   const dispatch = useDispatch();
-  const [formData, setFormData] = useState({
+  const currentAchievement: AchievementType = useMemo(() => ({
     id: pickedAchieve?.id || "",
     title: pickedAchieve?.title || "",
     message: pickedAchieve?.message || "",
-  });
+    humidity: pickedAchieve?.humidity || "",
+    temperature: pickedAchieve?.temperature || "",
+    datetime: pickedAchieve?.datetime || "",
+  }), [pickedAchieve]);
+
+  const [formData, setFormData] = useState<AchievementType>(currentAchievement);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
+  // Update form data when pickedAchieve changes
   useEffect(() => {
-    setFormData({
-      id: pickedAchieve?.id || "",
-      title: pickedAchieve?.title || "",
-      message: pickedAchieve?.message || "",
-    });
-  }, [pickedAchieve]);
+    setFormData(currentAchievement);
+    setErrors({});
+  }, [currentAchievement]);
 
   const handleChange = useCallback(
-    (id: string, e: React.ChangeEvent<HTMLTextAreaElement>) => {
-      setFormData((prev) => ({ ...prev, [id]: e.target.value }));
+    (id: keyof AchievementType, value: React.ChangeEvent<HTMLTextAreaElement>) => {
+      setFormData((prev) => ({
+        ...prev,
+        [id]: value,
+      }));
     },
     []
   );
 
-  const handleUpdateAchieve = () => {
+  const handleUpdateAchieve = useCallback(() => {
     const result = schema.safeParse(formData);
     if (!result.success) {
       const newErrors = result.error.errors.reduce(
@@ -49,10 +55,9 @@ const Modal = ({ pickedAchieve }: ModalType) => {
       setErrors(newErrors);
     } else {
       setErrors({});
-      console.log(formData);
-      dispatch(handleEditTask(formData as AchievementType));
+      dispatch(handleEditTask(formData));
     }
-  };
+  }, [dispatch, formData]);
 
   const handleCloseModal = useCallback(() => {
     setErrors({});
@@ -61,6 +66,9 @@ const Modal = ({ pickedAchieve }: ModalType) => {
         id: pickedAchieve.id || "",
         title: pickedAchieve.title || "",
         message: pickedAchieve.message || "",
+        humidity: pickedAchieve.humidity,
+        temperature: pickedAchieve.temperature,
+        datetime: pickedAchieve.datetime,
       });
     }
   }, [pickedAchieve]);

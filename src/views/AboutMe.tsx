@@ -23,7 +23,6 @@ const AboutMe = () => {
       {!data && isLoading ? (
         <>
           <div className="flex w-full flex-col h-full gap-4">
-            <Loading />
             <div className="flex gap-4">
               <div className="flex items-center gap-4">
                 <div className="skeleton h-64 w-32 shrink-0 rounded-xl"></div>
@@ -36,13 +35,18 @@ const AboutMe = () => {
         <div className="animate-fadeIn">
           <div className="hero bg-base-100 h-screen max-lg:py-8">
             <div className="hero-content flex-col lg:flex-row">
-              <img
-                alt="imagemyself"
-                src={data?.avatar_url}
-                className="max-w-sm rounded-lg shadow-2xl w-64 h-full"
-              />
+              {isLoading ? (
+                <Loading />
+              ) : (
+                <img
+                  alt="imagemyself"
+                  src={data?.avatar_url}
+                  className="max-w-sm rounded-lg shadow-2xl w-64 h-full"
+                />
+              )}
+
               <div className="flex flex-col gap-5">
-                <h1 className="text-5xl max-lg:text-xl font-bold">
+                <h1 className="text-5xl hover-text-gradient transition-all duration-500 max-lg:text-xl font-bold">
                   {data?.bio}
                 </h1>
                 <p>With great power comes great electricity !</p>
