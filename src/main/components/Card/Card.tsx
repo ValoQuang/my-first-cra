@@ -29,11 +29,7 @@ const Card = ({ value }: CardProp) => {
               return <div key={index} className="badge badge-outline">{stack}</div>;
             })}
           </div>
-          <Button
-            icon={<LuSendHorizonal />}
-            anchor={value?.link}
-            title="Link"
-          />
+          <Button icon={<LuSendHorizonal />} title="Link" />
         </div>
       </div>
     </div>

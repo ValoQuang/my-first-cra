@@ -1,8 +1,8 @@
 import { Loading, Button } from "../main/components/index";
 import { LuUserPlus } from "react-icons/lu";
-import { useGetUserByNameQuery } from "../redux/page/pageSlice";
+import { useGetUserByNameQuery } from "../redux/page/githubSlice";
 import Portfolio from "./Portfolio";
-import { useRef } from "react";
+import { MutableRefObject, useCallback, useRef } from "react";
 import Biography from "./Biography";
 
 const AboutMe = () => {
@@ -11,16 +11,18 @@ const AboutMe = () => {
     `${process.env.REACT_APP_GITHUB_NAME}`
   );
 
-  const handleScrollToSection = (ref: any) => {
-    ref.current.scrollIntoView({ behavior: "smooth" });
-  };
+  const handleScrollToSection = useCallback(
+    (ref: MutableRefObject<HTMLElement | null>) => {
+      ref.current?.scrollIntoView({ behavior: "smooth" });
+    },
+    []
+  );
 
   return (
     <div className="flex align-center min-h-screen justify-center items-center max-lg:text-sm">
       {!data && isLoading ? (
         <>
           <div className="flex w-full flex-col h-full gap-4">
-            <Loading />
             <div className="flex gap-4">
               <div className="flex items-center gap-4">
                 <div className="skeleton h-64 w-32 shrink-0 rounded-xl"></div>
@@ -33,13 +35,18 @@ const AboutMe = () => {
         <div className="animate-fadeIn">
           <div className="hero bg-base-100 h-screen max-lg:py-8">
             <div className="hero-content flex-col lg:flex-row">
-              <img
-                alt="imagemyself"
-                src={data?.avatar_url}
-                className="max-w-sm rounded-lg shadow-2xl w-64 h-full"
-              />
+              {isLoading ? (
+                <Loading />
+              ) : (
+                <img
+                  alt="imagemyself"
+                  src={data?.avatar_url}
+                  className="max-w-sm rounded-lg shadow-2xl w-64 h-full"
+                />
+              )}
+
               <div className="flex flex-col gap-5">
-                <h1 className="text-5xl max-lg:text-xl font-bold">
+                <h1 className="text-5xl hover-text-gradient transition-all duration-500 max-lg:text-xl font-bold">
                   {data?.bio}
                 </h1>
                 <p>With great power comes great electricity !</p>

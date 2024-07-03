@@ -42,8 +42,13 @@ export const biography = [
         pic: ""
     },
     {
-        year: "2021 - 2024",
+        year: "2021 - 2022",
         work: "I started coding, with focus on web application, my main specialty are ReactJS, Typescript, Tailwindcss",
         pic: ""
-    }
+    },
+    {
+      year: "2022 - 2024",
+      work: "I worked at SayDuck startup in Finland, from there I got my hands dirty with range of tools, and I learned how to make robust application and learned to how collaborate with colleagues on features, code review",
+      pic: "https://scontent-hkg1-2.xx.fbcdn.net/v/t39.30808-6/415344374_7738676289480692_5369260577246584922_n.jpg?stp=dst-webp_e15_q70_s960x630_tt1_u&efg=eyJ1cmxnZW4iOiJ1cmxnZW5fZnJvbV91cmwifQ&_nc_cid=0&_nc_ad=z-m&_nc_rml=0&_nc_ht=scontent-hkg1-2.xx&_nc_cat=102&_nc_ohc=z1RrbImT5VIQ7kNvgGAKSJJ&ccb=1-7&_nc_sid=127cfc&oh=00_AYAROBEnIGHVbh_ZD_OYtJNZB01GEYL2XIg8JrDv5EAiMg&oe=668A875E"
+  }
 ]

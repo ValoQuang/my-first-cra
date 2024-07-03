@@ -44,18 +44,14 @@ const Navigation: React.FC = memo(() => {
     return (
       <>
         <Button
-          title="To-Do App"
-          onClick={() => handleNavigate("/to-do")}
+          title="Achievement App"
+          onClick={() => handleNavigate("/achievement")}
           icon={<LuBookOpenCheck />}
-          anchor="to-do"
         />
         {socialMediaLink.map((value, index) => (
           <div key={index}>
             <a href={value.link}>
-              <Button
-                title={value.name}
-                icon={value.icon}
-              />
+              <Button title={value.name} icon={value.icon} />
             </a>
           </div>
         ))}
@@ -74,7 +70,13 @@ const Navigation: React.FC = memo(() => {
         className="text-3xl hover:cursor-pointer"
         onClick={() => handleNavigate("/")}
       >
-        <a href="/">Quang Truong</a>
+        <a href="/">
+          <img
+            alt="logo"
+            className="mask mask-hexagon-2 w-16 h-16 animate-fadeIn"
+            src="https://scontent-hkg1-2.xx.fbcdn.net/v/t39.30808-6/415595787_7738673536147634_8929925784295944651_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=127cfc&_nc_ohc=LC6R6_rpJFwQ7kNvgGO89zI&_nc_ht=scontent-hkg1-2.xx&oh=00_AYB8huyEbH6-PHXkGdEG2MAtPF2A673RTnc0ZIOvGdA2nQ&oe=668A80F1"
+          />
+        </a>
       </div>
       <div className="flex gap-2 max-lg:hidden">{handleRenderButtons()}</div>
 
