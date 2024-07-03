@@ -4,15 +4,19 @@ import { useDispatch } from "react-redux";
 import { Button } from "../Button";
 import { LuSendHorizonal, LuUndo2, LuCalendarDays } from "react-icons/lu";
 import { Task, handleAddTask } from "../../../redux/task/taskSlice";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { schema } from "../../../utils";
 import { Loading } from "../Loading";
+import { getAchievementDataApi } from "../../../redux/page/achievementApi";
+import dayjs from "dayjs";
 
 const AchievedForm = () => {
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false);
-  const [fetchError, setFetchError] = useState(false);
+  const [getHumidity, { isFetching, isError }] =
+    getAchievementDataApi.useLazyGetHumidityDataQuery();
+  const [getTemperature, { isFetching: isTempFetching, isError: isTempError }] =
+    getAchievementDataApi.useLazyGetTemperatureDataQuery();
 
   const {
     register,
@@ -20,7 +24,7 @@ const AchievedForm = () => {
     reset,
     setValue,
     formState: { errors },
-    watch
+    watch,
   } = useForm({
     resolver: zodResolver(schema),
   });
@@ -29,49 +33,36 @@ const AchievedForm = () => {
   const onSubmit = useCallback(
     async (data: Task) => {
       try {
-        setLoading(true);
-        const response = await fetch(
-          `https://api.data.gov.sg/v1/environment/relative-humidity?date_time=${data.datetime}`
-        );
-        if (response.ok) {
-          setLoading(false);
-          setFetchError(false);
-          const weatherData = await response.json();
-          const taskData = {
+        const response = await Promise.all([
+          getHumidity(data.datetime).unwrap(),
+          getTemperature(data.datetime).unwrap(),
+        ]);
+        if (response) {
+          const achievementData = {
             id: uuidv4(),
             title: data.title,
             message: data.message,
             datetime: data.datetime,
-            weather: weatherData?.items[0].readings[0].value,
+            humidity: response[0].items[0].readings[0].value,
+            temperature: response[1].items[0].readings[0].value,
           };
-          dispatch(handleAddTask(taskData));
-        } 
-        if (response.status === 500) {
-          setFetchError(true);
+          dispatch(handleAddTask(achievementData));
         }
       } catch (error: any) {
         console.error(error.message);
-        setFetchError(true);
       } finally {
-        setLoading(false);
         reset();
       }
     },
-    [dispatch, reset]
+    [dispatch, getHumidity, getTemperature, reset]
   );
 
   const handleAutoFillDateTime = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
       event.preventDefault();
-      const currentDate = new Date();
-      const day = String(currentDate.getDate()).padStart(2, "0");
-      const month = String(currentDate.getMonth() + 1).padStart(2, "0");
-      const year = currentDate.getFullYear();
-      const hours = String(currentDate.getHours()).padStart(2, "0");
-      const minutes = String(currentDate.getMinutes()).padStart(2, "0");
-      const seconds = String(currentDate.getSeconds()).padStart(2, "0");
-      const formattedDateTime = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
-      setValue("datetime", formattedDateTime);
+      const currentDate = new Date().toString();
+      const formattedDate = dayjs(currentDate).format("YYYY-MM-DDTHH:mm:ss");
+      setValue("datetime", formattedDate);
     },
     [setValue]
   );
@@ -145,7 +136,7 @@ const AchievedForm = () => {
           </section>
         </div>
         <div className="flex justify-between">
-          {loading ? (
+          {isFetching && isTempFetching ? (
             <Loading />
           ) : (
             <Button icon={<LuSendHorizonal />} title="Submit" />
@@ -154,12 +145,13 @@ const AchievedForm = () => {
             <Button onClick={handleReset} icon={<LuUndo2 />} title="Reset" />
           )}
         </div>
-        {fetchError && (
-          <p className="text-red-500">
-            This error is due to api failture, check the date if it is valid.
-            The date must be within range and not in the future !
-          </p>
-        )}
+        {isError ||
+          (isTempError && (
+            <p className="text-red-500">
+              This error is due to api failture, check the date if it is valid.
+              The date must be within range and not in the future !
+            </p>
+          ))}
       </form>
     </div>
   );

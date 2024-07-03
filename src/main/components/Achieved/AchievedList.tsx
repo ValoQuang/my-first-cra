@@ -120,7 +120,7 @@ const AchievedList = () => {
         <td className="w-32">{task.title}</td>
         <td className="w-52">{task.message}</td>
         <td className="w-14">{task.datetime}</td>
-        <td className="w-14">{task.weather}</td>
+        <td className="w-32">{task.humidity}% {task.temperature} C</td>
         <th className="w-10 flex gap-1">
           <Button
             onClick={() => handleEditAchieved(task)}
@@ -167,7 +167,7 @@ const AchievedList = () => {
                 <th className="w-32">Title</th>
                 <th className="w-32">Description</th>
                 <th className="w-24">Date & Time</th>
-                <th className="w-10">Humidity</th>
+                <th className="w-32">Humidity & Temperature</th>
                 <th className="w-10">Edit & Delete</th>
               </tr>
             </thead>

@@ -13,6 +13,7 @@ import {
   PURGE,
   REGISTER,
 } from "redux-persist";
+import { getAchievementDataApi } from "./page/achievementApi";
 
 export type StoreState = ReturnType<typeof rootReducer>;
 
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
   theme: themeReducer,
   task: taskReducer,
   [githubApi.reducerPath]: githubApi.reducer,
+  [getAchievementDataApi.reducerPath]: getAchievementDataApi.reducer,
 });
 const persistConfig = {
   key: "root",
@@ -36,7 +38,7 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(githubApi.middleware),
+    }).concat(githubApi.middleware).concat(getAchievementDataApi.middleware),
 });
 
 export const persistor = persistStore(store);

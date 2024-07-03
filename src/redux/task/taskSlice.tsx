@@ -5,7 +5,8 @@ export interface Task {
   message: string;
   datetime: string;
   id?: string;
-  weather?: string;
+  humidity?: string;
+  temperature?: string;
 }
 
 interface TaskState {
