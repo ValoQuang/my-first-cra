@@ -20,9 +20,11 @@ const AchievedForm = () => {
     reset,
     setValue,
     formState: { errors },
+    watch
   } = useForm({
     resolver: zodResolver(schema),
   });
+  const watchedFields = watch();
 
   const onSubmit = useCallback(
     async (data: Task) => {
@@ -148,7 +150,9 @@ const AchievedForm = () => {
           ) : (
             <Button icon={<LuSendHorizonal />} title="Submit" />
           )}
-          <Button onClick={handleReset} icon={<LuUndo2 />} title="Reset" />
+          {Object.keys(watchedFields).length > 0 && (
+            <Button onClick={handleReset} icon={<LuUndo2 />} title="Reset" />
+          )}
         </div>
         {fetchError && (
           <p className="text-red-500">

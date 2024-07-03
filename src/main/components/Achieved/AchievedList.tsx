@@ -24,7 +24,6 @@ const AchievedList = () => {
   const tasksPerPage = 5;
 
   useEffect(() => {
-    
     setFilteredData(tasks);
   }, [tasks]);
 
@@ -41,9 +40,12 @@ const AchievedList = () => {
     setCurrentPage(pageNumber);
   }, []);
 
-  const handleDeleteAchieved = useCallback((id: string) => {
-    dispatch(handleDeleteTask(id));
-  }, [dispatch]);
+  const handleDeleteAchieved = useCallback(
+    (id: string) => {
+      dispatch(handleDeleteTask(id));
+    },
+    [dispatch]
+  );
 
   const handleEditAchieved = (achieve: Task) => {
     setPickedAchieve(achieve);
@@ -104,30 +106,33 @@ const AchievedList = () => {
     );
   };
 
-  const renderTasks =  sortedTasks.slice().reverse().map((task) => (
-    <tr
-      className={`py-1 hover:cursor-pointer hover:transition-all hover:translate-x-1 ${
-        task.id === highlightedRow ? "bg-base-200" : ""
-      }`}
-      key={task.id}
-      onClick={() => setHighlightedRow(task.id!)}
-    >
-      <td className="w-32">{task.title}</td>
-      <td className="w-52">{task.message}</td>
-      <td className="w-14">{task.datetime}</td>
-      <td className="w-14">{task.weather}</td>
-      <th className="w-10 flex gap-1">
-        <Button
-          onClick={() => handleEditAchieved(task)}
-          icon={<LuClipboardEdit />}
-        />
-        <Button
-          onClick={() => handleDeleteAchieved(task.id!)}
-          icon={<LuTrash2 />}
-        />
-      </th>
-    </tr>
-  ));
+  const renderTasks = sortedTasks
+    .slice()
+    .reverse()
+    .map((task) => (
+      <tr
+        className={`py-1 hover:cursor-pointer hover:transition-all hover:translate-x-1 ${
+          task.id === highlightedRow ? "bg-base-200" : ""
+        }`}
+        key={task.id}
+        onClick={() => setHighlightedRow(task.id!)}
+      >
+        <td className="w-32">{task.title}</td>
+        <td className="w-52">{task.message}</td>
+        <td className="w-14">{task.datetime}</td>
+        <td className="w-14">{task.weather}</td>
+        <th className="w-10 flex gap-1">
+          <Button
+            onClick={() => handleEditAchieved(task)}
+            icon={<LuClipboardEdit />}
+          />
+          <Button
+            onClick={() => handleDeleteAchieved(task.id!)}
+            icon={<LuTrash2 />}
+          />
+        </th>
+      </tr>
+    ));
 
   return (
     <>

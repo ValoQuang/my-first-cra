@@ -1,14 +1,18 @@
-import { useEffect, useState } from "react";
-import { Task } from "../../../redux/task/taskSlice";
+import { useCallback, useEffect, useState } from "react";
+import { Task, handleEditTask } from "../../../redux/task/taskSlice";
 import { Button } from "../Button";
 import { schema } from "../../../utils";
+import { useDispatch } from "react-redux";
+import { LuX, LuCheck } from "react-icons/lu";
 
 type ModalType = {
   pickedAchieve: Task | null | undefined;
 };
 
 const Modal = ({ pickedAchieve }: ModalType) => {
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
+    id: pickedAchieve?.id || "",
     title: pickedAchieve?.title || "",
     message: pickedAchieve?.message || "",
   });
@@ -16,17 +20,18 @@ const Modal = ({ pickedAchieve }: ModalType) => {
 
   useEffect(() => {
     setFormData({
+      id: pickedAchieve?.id || "",
       title: pickedAchieve?.title || "",
       message: pickedAchieve?.message || "",
     });
   }, [pickedAchieve]);
 
-  const handleChange = (
+  const handleChange = useCallback((
     id: string,
     e: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     setFormData((prev) => ({ ...prev, [id]: e.target.value }));
-  };
+  }, []);
 
   const handleUpdateAchieve = () => {
     const result = schema.safeParse(formData);
@@ -41,17 +46,21 @@ const Modal = ({ pickedAchieve }: ModalType) => {
       setErrors(newErrors);
     } else {
       setErrors({});
-      //dispatch();
+      console.log(formData);
+      dispatch(handleEditTask(formData as Task));
     }
   };
 
-  const handleCloseModal = () => {
+  const handleCloseModal = useCallback(() => {
     setErrors({});
-    setFormData({
-      title: pickedAchieve?.title || "",
-      message: pickedAchieve?.message || "",
-    });
-  };
+    if (pickedAchieve) {
+      setFormData({
+        id: pickedAchieve.id || "",
+        title: pickedAchieve.title || "",
+        message: pickedAchieve.message || "",
+      });
+    }
+  }, [pickedAchieve]);
 
   return (
     <div>
@@ -83,13 +92,13 @@ const Modal = ({ pickedAchieve }: ModalType) => {
             {errors.message && <p className="text-red-500">{errors.message}</p>}
           </section>
           <div className="modal-action">
-            <Button title="Save change" onClick={handleUpdateAchieve} />  
+            <Button title="Save change" icon={<LuCheck/>} onClick={handleUpdateAchieve} />  
             <form
               method="dialog"
               className="flex gap-2 justify-between align-middle items-center"
             >
               {" "}
-              <Button onClick={handleCloseModal} title="Close" />
+              <Button icon={<LuX/>} onClick={handleCloseModal} title="Close" />
             </form>
           </div>
         </div>
