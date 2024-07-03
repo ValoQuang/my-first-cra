@@ -3,12 +3,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useDispatch } from "react-redux";
 import { Button } from "../Button";
 import { LuSendHorizonal, LuUndo2, LuCalendarDays } from "react-icons/lu";
-import { Task, handleAddTask } from "../../../redux/task/taskSlice";
+import {
+  AchievementType,
+  handleAddTask,
+} from "../../../redux/achievement/achievementSlice";
 import { useCallback } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { schema } from "../../../utils";
 import { Loading } from "../Loading";
-import { getAchievementDataApi } from "../../../redux/page/achievementApi";
+import { getAchievementDataApi } from "../../../redux/achievement/achievementApi";
 import dayjs from "dayjs";
 
 const AchievedForm = () => {
@@ -31,7 +34,7 @@ const AchievedForm = () => {
   const watchedFields = watch();
 
   const onSubmit = useCallback(
-    async (data: Task) => {
+    async (data: AchievementType) => {
       try {
         const response = await Promise.all([
           getHumidity(data.datetime).unwrap(),

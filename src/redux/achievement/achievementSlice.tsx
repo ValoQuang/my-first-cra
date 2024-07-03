@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-export interface Task {
+export interface AchievementType {
   title: string;
   message: string;
   datetime: string;
@@ -9,11 +9,11 @@ export interface Task {
   temperature?: string;
 }
 
-interface TaskState {
-  tasks: Task[];
+interface AchievementState {
+  tasks: AchievementType[];
 }
 
-const initialState: TaskState = {
+const initialState: AchievementState = {
   tasks: [],
 };
 
@@ -21,7 +21,7 @@ const taskSlice = createSlice({
   name: "tasks",
   initialState,
   reducers: {
-    handleAddTask: (state, action: PayloadAction<Task>) => {
+    handleAddTask: (state, action: PayloadAction<AchievementType>) => {
       state.tasks.push(action.payload);
     },
     handleDeleteTask: (state, action: PayloadAction<string>) => {
@@ -32,7 +32,7 @@ const taskSlice = createSlice({
         state.tasks.splice(mainIndex, 1);
       }
     },
-    handleEditTask: (state, action: PayloadAction<Task>) => {
+    handleEditTask: (state, action: PayloadAction<AchievementType>) => {
       const index = state.tasks.findIndex(
         (task) => task.id === action.payload.id
       );

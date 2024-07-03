@@ -1,12 +1,15 @@
 import { useCallback, useEffect, useState } from "react";
-import { Task, handleEditTask } from "../../../redux/task/taskSlice";
+import {
+  AchievementType,
+  handleEditTask,
+} from "../../../redux/achievement/achievementSlice";
 import { Button } from "../Button";
 import { schema } from "../../../utils";
 import { useDispatch } from "react-redux";
 import { LuX, LuCheck } from "react-icons/lu";
 
 type ModalType = {
-  pickedAchieve: Task | null | undefined;
+  pickedAchieve: AchievementType | null | undefined;
 };
 
 const Modal = ({ pickedAchieve }: ModalType) => {
@@ -26,12 +29,12 @@ const Modal = ({ pickedAchieve }: ModalType) => {
     });
   }, [pickedAchieve]);
 
-  const handleChange = useCallback((
-    id: string,
-    e: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    setFormData((prev) => ({ ...prev, [id]: e.target.value }));
-  }, []);
+  const handleChange = useCallback(
+    (id: string, e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      setFormData((prev) => ({ ...prev, [id]: e.target.value }));
+    },
+    []
+  );
 
   const handleUpdateAchieve = () => {
     const result = schema.safeParse(formData);
@@ -47,7 +50,7 @@ const Modal = ({ pickedAchieve }: ModalType) => {
     } else {
       setErrors({});
       console.log(formData);
-      dispatch(handleEditTask(formData as Task));
+      dispatch(handleEditTask(formData as AchievementType));
     }
   };
 
@@ -92,13 +95,17 @@ const Modal = ({ pickedAchieve }: ModalType) => {
             {errors.message && <p className="text-red-500">{errors.message}</p>}
           </section>
           <div className="modal-action">
-            <Button title="Save change" icon={<LuCheck/>} onClick={handleUpdateAchieve} />  
+            <Button
+              title="Save change"
+              icon={<LuCheck />}
+              onClick={handleUpdateAchieve}
+            />
             <form
               method="dialog"
               className="flex gap-2 justify-between align-middle items-center"
             >
               {" "}
-              <Button icon={<LuX/>} onClick={handleCloseModal} title="Close" />
+              <Button icon={<LuX />} onClick={handleCloseModal} title="Close" />
             </form>
           </div>
         </div>

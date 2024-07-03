@@ -9,7 +9,10 @@ import {
   LuArrowDown,
   LuSearch,
 } from "react-icons/lu";
-import { Task, handleDeleteTask } from "../../../redux/task/taskSlice";
+import {
+  AchievementType,
+  handleDeleteTask,
+} from "../../../redux/achievement/achievementSlice";
 import Modal from "../Modal/Modal";
 
 const AchievedList = () => {
@@ -17,9 +20,9 @@ const AchievedList = () => {
   const dispatch = useDispatch();
   const [highlightedRow, setHighlightedRow] = useState<string | null>(null);
   const [ascend, setAscend] = useState(false);
-  const [filteredData, setFilteredData] = useState<Task[]>([]);
+  const [filteredData, setFilteredData] = useState<AchievementType[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [pickedAchieve, setPickedAchieve] = useState<Task | null>(null);
+  const [pickedAchieve, setPickedAchieve] = useState<AchievementType | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const tasksPerPage = 5;
 
@@ -47,7 +50,7 @@ const AchievedList = () => {
     [dispatch]
   );
 
-  const handleEditAchieved = (achieve: Task) => {
+  const handleEditAchieved = (achieve: AchievementType) => {
     setPickedAchieve(achieve);
     setIsModalOpen(true);
     const modalElement = document.getElementById(
@@ -120,7 +123,9 @@ const AchievedList = () => {
         <td className="w-32">{task.title}</td>
         <td className="w-52">{task.message}</td>
         <td className="w-14">{task.datetime}</td>
-        <td className="w-32">{task.humidity}% {task.temperature} C</td>
+        <td className="w-32">
+          {task.humidity}% {task.temperature} C
+        </td>
         <th className="w-10 flex gap-1">
           <Button
             onClick={() => handleEditAchieved(task)}
